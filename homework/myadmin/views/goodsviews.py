@@ -47,9 +47,45 @@ def index(request):
 
 
 def delete(request):
-
-    pass
-
+    uid =request.GET.get('uid'，None)
+    ob = Goods.objects.get(id=uid)
+    判断商品是否有图像
+    if ob.pic:
+            os.remove('.'+ob.pic)
+        ob.delete()
+        data = {'msg':'删除成功','code':0}
+    except:
+        data = {'msg':'删除失败','code':1}
+    return JsonResponse(data) 
 def edit(request):
-
-    pass
+     # 接收参数
+    uid = request.GET.get('uid',None)    
+    # 获取对象
+    ob = Goods.objects.get(id=uid)
+    # print(ob)
+    if request.method == 'GET':
+        # 分配数据
+        context = {'uinfo':ob}
+        # 显示编辑页面
+        return render(request,'myadmin/goods/edit.html',context)
+    elif request.method == 'POST':
+        try:
+            # 判断是否上传了新的图片
+            if request.FILES.get('pic',None):
+                if ob.pics:
+                    # 如果使用的不是默认图,则删除之前上传的头像
+                    os.remove('.'+ob.pics)
+                # 执行上传
+                ob.pics = uploads(request)
+                print(ob.pics)
+            ob.title = request.POST['title']
+            ob.descr = request.POST['descr']
+            ob.price = request.POST['price']
+            ob.store = request.POST['store']
+            ob.save()
+            return HttpResponse('<script>alert("更新成功");location.href="'+reverse('myadmin_goods_list')+'"</script>')
+        except:
+            return HttpResponse('<script>alert("更新失败");location.href="'+reverse('myadmin_goods_list')+'"</script>')
+                      
+        
+    

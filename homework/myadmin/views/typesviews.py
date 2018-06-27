@@ -56,5 +56,25 @@ def delete(request):
     return JsonResponse(data)
 
 def edit(request):
+    tid = request.GET.get('uid',None)
+    # 获取对象数据
+    ob = Types.objects.get(id=tid)
+    if request.method == 'GET':
+        if ob.pid == 0:
+            ob.pname = '顶级分类'
+        else:
+            ob.pname = Types.objects.get(id=ob.pid).name
+        # 分配数据
+        # tinfo = gettypesorder()
+        context = {'tinfo':ob}
+        # 显示编辑页面
+        return render(request,'myadmin/types/edit.html',context)
+    elif request.method == 'POST':
+        try:
+            ob.name = request.POST['name']
+            ob.save()
+            return HttpResponse('<script>alert("更新成功");location.href="'+reverse('myadmin_types_list')+'"</script>')
+        except:
+            return HttpResponse('<script>alert("更新失败");location.href="'+reverse('myadmin_types_edit')+'?uid='+str(ob.id)+'"</script>')
 
-    pass
+    

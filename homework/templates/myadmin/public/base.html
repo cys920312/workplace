@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     {% block title %}
     <title>Amaze UI Admin index Examples</title>
-    {% endblock%}
+    {% endblock %}
     <meta name="description" content="这是一个 index 页面">
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -66,7 +66,7 @@
                                 <li class="tpl-dropdown-menu-messages">
                                     <a href="javascript:;" class="tpl-dropdown-menu-messages-item am-cf">
                                         <div class="menu-messages-ico">
-                                            <img src="/static/myadmin/img/user03.png" alt="">
+                                            <img src="/static/myadmin/img/user04.png" alt="">
                                         </div>
                                         <div class="menu-messages-time">
                                             3小时前
@@ -93,7 +93,7 @@
                                         <div class="menu-messages-content">
                                             <div class="menu-messages-content-title">
                                                 <i class="am-icon-circle-o am-text-warning"></i>
-                                                <span>administrator陈</span>
+                                                <span>禁言小张</span>
                                             </div>
                                             <div class="am-text-truncate"> 为了能最准确的传达所描述的问题， 建议你在反馈时附上演示，方便我们理解。 </div>
                                             <div class="menu-messages-content-time">2016-09-16 上午 09:23</div>
@@ -191,11 +191,11 @@
             <div class="tpl-sidebar-user-panel">
                 <div class="tpl-user-panel-slide-toggleable">
                     <div class="tpl-user-panel-profile-picture">
-                        <img src="/static/myadmin/img/user03.png" alt="">
+                        <img src="/static/myadmin/img/user05.png" alt="">
                     </div>
                     <span class="user-panel-logged-in-text">
               <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
-              administrator陈
+              禁言小张
           </span>
                     <a href="javascript:;" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 账号设置</a>
                 </div>
@@ -203,16 +203,17 @@
 
             <!-- 菜单 -->
             <ul class="sidebar-nav">
+                <li class="sidebar-nav-heading">Components <span class="sidebar-nav-heading-info"> 附加组件</span></li>
                 <li class="sidebar-nav-link">
                     <a href="{% url 'myadmin_index' %}" class="active">
                         <i class="am-icon-home sidebar-nav-link-logo"></i> 首页
                     </a>
                 </li>
-                
 
+               
                 <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
-                        <i class="am-icon-users sidebar-nav-link-logo"></i> 会员管理
+                        <i class="am-icon-user sidebar-nav-link-logo"></i> 会员管理
                         <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                     </a>
                     <ul class="sidebar-nav sidebar-nav-sub">
@@ -229,7 +230,6 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
                         <i class="am-icon-table sidebar-nav-link-logo"></i> 分类管理
@@ -238,20 +238,18 @@
                     <ul class="sidebar-nav sidebar-nav-sub">
                         <li class="sidebar-nav-link">
                             <a href="{% url 'myadmin_types_add' %}">
-                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span>分类添加
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 分类添加
                             </a>
                         </li>
 
                         <li class="sidebar-nav-link">
                             <a href="{% url 'myadmin_types_list' %}">
-                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span>分类列表
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 分类列表
                             </a>
                         </li>
                     </ul>
                 </li>
-
-
-                 <li class="sidebar-nav-link">
+                <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
                         <i class="am-icon-shopping-bag sidebar-nav-link-logo"></i> 商品管理
                         <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
@@ -270,25 +268,19 @@
                         </li>
                     </ul>
                 </li>
-                
-                 <li class="sidebar-nav-link">
+            <li class="sidebar-nav-link">
                     <a href="javascript:;" class="sidebar-nav-sub-title">
                         <i class="am-icon-cart-plus sidebar-nav-link-logo"></i> 订单管理
                         <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                     </a>
                     <ul class="sidebar-nav sidebar-nav-sub">
-                      
-
                         <li class="sidebar-nav-link">
-                            <a href="table-list-img.html">
+                            <a href="table-list.html">
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 订单列表
                             </a>
                         </li>
                     </ul>
                 </li>
-                
-                
-                
             </ul>
         </div>
 
@@ -392,7 +384,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="am-u-sm-12 am-u-md-4">
                         <div class="widget am-cf">
                             <div class="widget-head am-cf">
@@ -425,14 +417,14 @@
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-4 widget-margin-bottom-lg ">
                         <div class="tpl-user-card am-text-center widget-body-lg">
                             <div class="tpl-user-card-title">
-                                administrator陈
+                                禁言小张
                             </div>
                             <div class="achievement-subheading">
                                 月度最佳员工
                             </div>
                             <img class="achievement-image" src="/static/myadmin/img/user07.png" alt="">
                             <div class="achievement-description">
-                                administrator陈在
+                                禁言小张在
                                 <strong>30天内</strong> 禁言了
                                 <strong>200多</strong>人。
                             </div>
@@ -541,7 +533,7 @@
 
                     </div>
                 </div>
-                {% endblock %}
+                {% endblock %}                
             </div>
         </div>
     </div>
@@ -550,11 +542,6 @@
     <script src="/static/myadmin/js/amazeui.datatables.min.js"></script>
     <script src="/static/myadmin/js/dataTables.responsive.min.js"></script>
     <script src="/static/myadmin/js/app.js"></script>
-    <script type="text/javascript">
-        a = '{{ request.path }}'
-        link = $('a[href="'+a+'"]').addClass('active').parents('ul').show()
-    </script>
-
 
 </body>
 
