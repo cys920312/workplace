@@ -3,10 +3,87 @@ from django.http import HttpResponse,JsonResponse
 from .. models import Users
 import os
 # Create your views here.
+# 会员登录
+def login(request):
+    if request.method == "GET":
+        return render(request,"myadmin/login.html")
+
+    elif request.method == "POST":
+        from django.contrib.auth.hashers import make_password, check_password
+        #                                                                                                                              = request.POST.get('username',None)
+        # password = request.POST.get('password',None)
+        # 执行登录
+        # 根据用户名先获取用户对象.在检测密码是否正确
+        try:
+            ob = Users.objects.get(username = request.POST['username'])
+            # 检测密码是否正确
+            res = check_password(request.POST['password'],ob.password)
+            if res:
+                # 密码正确
+                request.session['AdminUser'] = {'uid':ob.id,'username':ob.username}
+                return HttpResponse('<script>alert("登录成功");location.href="/myadmin/"</script>')
+
+        except:
+            # 用户名错误
+            pass
+        
+        return HttpResponse('<script>alert("用户名或密码错误");location.href="/myadmin/user/login"</script>')
+
+# 会员退出
+def logout(request):
+    data  = {}
+    if  request.session.get('AdminUser',None):
+        request.session['AdminUser'] = data
+        return HttpResponse('<script>alert("退出成功");location.href="/myadmin/user/login"</script>')
+    else:
+        return HttpResponse('<script>alert("未登录无法退出");location.href="/myadmin/user/login"</script>')
 # 会员列表
 def index(request):
-    userlist = Users.objects.all()[:10]
-    context={'userlist':userlist}
+     # 获取搜索条件
+    types = request.GET.get('type',None)
+    keywords = request.GET.get('keywords',None)
+    # 判断是否具有搜索条件
+    # print(types,keywords)
+    if types:
+        if types == 'all':
+            # 有搜索条件
+            from django.db.models import Q
+            userlist = Users.objects.filter(
+                Q(username__contains=keywords)|
+                Q(age__contains=keywords)|
+                Q(email__contains=keywords)|
+                Q(phone__contains=keywords)|
+                Q(sex__contains=keywords)         
+            )
+        elif types == 'username':
+            # 按照用户名搜索
+            userlist = Users.objects.filter(username__contains=keywords)
+        elif types == 'age':
+            # 按照年龄搜索
+            userlist = Users.objects.filter(age__contains=keywords)
+        elif types == 'email':
+            # 按照邮箱搜索
+            userlist = Users.objects.filter(email__contains=keywords)
+        elif types == 'phone':
+            # 按照手机号搜索
+            userlist = Users.objects.filter(phone__contains=keywords)
+        elif types == 'sex':
+            # 按照性别搜索
+            userlist = Users.objects.filter(sex__contains=keywords)
+    else:
+        # 获取所有用户数据
+        userlist = Users.objects.filter()
+    # 导入分页类
+    from django.core.paginator import Paginator
+    # 实例化分类页　参数１　数据集合　参数２　每页显示条数
+    paginator = Paginator(userlist,10)
+    # 获取当前页码数
+    p = request.GET.get('p',1)
+    # 获取当前页的数据
+    ulist = paginator.page(p)
+    # 分配数据
+    context = {'userlist':ulist}
+    # 加载模板
     return render(request,'myadmin/user/list.html',context)
 # 显示添加页面
 def add(request):

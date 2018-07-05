@@ -9,6 +9,7 @@ def gettypesorder():
             x.pname ='顶级分类'
         else:
             t=Types.objects.get(id=x.pid)
+            print(t)
             x.pname=t.name
         num = x.path.count(',')-1
         x.name =(num*'|----')+x.name
@@ -18,24 +19,51 @@ def add(request):
     if request.method =='GET':
     # 返回一个添加页面
         tlist=gettypesorder()
-        context={'tlist':list}
+        context={'tlist':tlist}
         return render(request,'myadmin/types/add.html',context)
     elif request.method =='POST':
     # 执行添加
         ob=Types()
         ob.name=request.POST['name']
         ob.pid=request.POST['pid']
-        if ob.pid==0:
+        if ob.pid=='0':
             ob.path='0,'
         else:
             t=Types.objects.get(id=ob.pid)
             ob.path=t.path+str(ob.pid)+','
         ob.save()
-        return HttpResponse('<script>alert("添加成功");location.href="'+reverse('myadmn_types_list')+'"</script>')
+        return HttpResponse('<script>alert("添加成功");location.href="'+reverse('myadmin_types_list')+'"</script>')
 def index(request):
-     tlist=gettypesorder()
-     context={'tlist':list}
-     return render(request,'myadmin/types/list.html',context)
+      # 获取搜索条件
+    types = request.GET.get('type',None)
+    keywords = request.GET.get('keywords',None)
+    # 判断是否具有搜索条件
+    # print(types,keywords)
+    if types:
+        if types == 'all':
+            # 有搜索条件
+            from django.db.models import Q
+            tlist = Types.objects.filter(
+                Q(name__contains=keywords)
+            )
+        elif types == 'name':
+            # 按照商品名搜索
+            tlist = Types.objects.filter(name__contains=keywords)
+
+    else:
+        tlist = gettypesorder()
+    # context = {'tlist':tlist}
+    from django.core.paginator import Paginator
+    # 实例化分类页　参数１　数据集合　参数２　每页显示条数
+    paginator = Paginator(tlist,10)
+    # 获取当前页码数
+    p = request.GET.get('p',1)
+    # 获取当前页的数据
+    ulist = paginator.page(p)
+    # 分配数据
+    context = {'tlist':ulist}
+    # 加载模板
+    return render(request,'myadmin/types/list.html',context)
 def delete(request):
     tid = request.GET.get('uid',None)
 
